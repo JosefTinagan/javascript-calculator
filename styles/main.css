@@ -62,6 +62,10 @@ table{
 
 }
 
+.clicked-background{
+	background-color: blue;
+}
+
 /* Misc */
 
 .clear{
@@ -75,3 +79,4 @@ table{
 td{
 	width: 33%;
 }
+
