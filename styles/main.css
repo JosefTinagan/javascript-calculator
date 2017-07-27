@@ -66,6 +66,9 @@ table{
 	background-color: blue;
 }
 
+.calc-screen{
+	height: 20px;
+}
 /* Misc */
 
 .clear{

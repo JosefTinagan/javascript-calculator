@@ -24,6 +24,7 @@ function setVariable(element){
   }else{
   	element.onclick = function(){
   	  storeClicked(element);
+  	  showNumbers();
   	}
   }
   element.onmousedown = function(){
@@ -31,6 +32,7 @@ function setVariable(element){
   }
   element.onmouseup = function(){
   	element.classList.remove("clicked-background");
+
   }
 }
 
@@ -57,6 +59,20 @@ function storeClicked(param){
   }
 
   console.log("Stored Variables: "+$stored_variables+", Stored Operator: " +$stored_operator+", Stored Variables2: " +$stored_variables2);
+}
+
+function showNumbers(){
+	var screen_string = "";
+	for(var i = 0; i < $stored_variables.length; i++){
+	  screen_string += $stored_variables[i];
+	}
+	if($stored_operator[0]){
+	  screen_string += $stored_operator[0];
+	}
+	for(var i = 0; i < $stored_variables2.length; i++){
+	  screen_string += $stored_variables2[i];
+	}
+	document.getElementById("screen").innerHTML = screen_string;
 }
 
 function clear(){
@@ -93,6 +109,8 @@ function total(){
 	}
     console.log("Result: "+result);
 	clear();
+	$stored_variables[0] = result;
+	showNumbers();
 }
 
 function add(x,y){
