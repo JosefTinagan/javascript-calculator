@@ -1,3 +1,135 @@
+$(document).ready(function(){
+  var $cells = ["1","2","3","4","5","6","7","8","9","0","plus","minus","multiply","divide","total","clr"];
+
+  var $stored_variables = [];
+  var $stored_variables2 = [];
+  var $stored_operator = [];
+
+  for(var i = 0; i < $cells.length; i++){
+    var temp = $cells[i];
+    console.log(temp);
+
+    $("#"+temp).click(function(){
+      if(this.innerHTML === "Clear"){
+      	$.fn.clear();
+      } else if (this.id === "total"){
+        $.fn.total();
+      } else{
+        $.fn.storeClickEvents(this);
+        $.fn.screen();
+      }
+    });
+
+    $("#"+temp).mousedown(function(){
+      $(this).addClass("clicked-background");
+    });
+    $("#"+temp).mouseup(function(){
+      $(this).removeClass("clicked-background");
+    });
+  }
+
+  $.fn.storeClickEvents = function(param){
+    console.log("Store Click Events Function");
+    console.log("Element: "+param.innerHTML);
+
+    var array_of_operators = ["+","-","*","/"];
+    var operator_flag = false;
+
+    for(var i = 0; i < array_of_operators.length; i++){
+      if(param.innerHTML === array_of_operators[i]){
+        operator_flag = true;
+      }
+    }
+
+    if(operator_flag){
+      $stored_operator.push(param.innerHTML);
+    } else {
+      if($stored_operator[0] === undefined){
+        $stored_variables.push(param.innerHTML);
+      } else {
+        $stored_variables2.push(param.innerHTML);
+      }
+    }
+
+    console.log($stored_variables);
+    console.log($stored_operator);
+    console.log($stored_variables2);
+  };
+
+  $.fn.screen = function(){
+    console.log("Screen Function");
+    var string = "";
+    for(var i = 0; i < $stored_variables.length; i++){
+      string += $stored_variables[i];
+    }
+    if($stored_operator[0]){
+      string += " " + $stored_operator[0] + " ";
+    }
+    for(var i = 0; i < $stored_variables2.length; i++){
+      string += $stored_variables2[i];
+    }
+    console.log(string);
+    $("#scrn").html(string);
+  }
+
+  $.fn.clear = function(){
+  	console.log("Clear Function");
+    $stored_variables = [];
+    $stored_variables2 = [];
+    $stored_operator = [];
+    $string = "";
+  }
+
+  $.fn.total = function(){
+    console.log("Total Function");
+
+    var first_num = 0;
+    var second_num = 0;
+    for(var i = 0; i < $stored_variables.length; i++){
+      first_num += $stored_variables[i];
+    }
+    for(var i = 0; i < $stored_variables2.length; i++){
+      second_num += $stored_variables2[i];
+    }
+    first_num = parseInt(first_num);
+    second_num = parseInt(second_num);
+    var operator = $stored_operator[0];
+    var result = 0;
+    if(operator === "+"){
+ 	  result = $.fn.add(first_num,second_num);
+    } else if (operator === "-"){
+       result = $.fn.subtract(first_num,second_num);
+    } else if ( operator === "*"){
+       result = $.fn.multiply(first_num,second_num);
+    } else {
+       result = $.fn.divide(first_num,second_num);
+    }
+
+    $.fn.clear();
+    console.log(result);
+    $stored_variables[0] = result;
+    $.fn.screen();
+  }
+
+  $.fn.add = function(x,y){
+  	return x + y;
+  }
+
+  $.fn.subtract = function(x,y){
+  	return x - y;
+  }
+
+  $.fn.mutliply = function(x,y){
+  	return x * y;
+  }
+
+  $.fn.divide = function(x,y){
+  	return x / y;
+  }
+});
+
+//Javascript Clean
+/*
 var $cells = [1,2,3,4,5,6,7,8,9,0,"+","-","*","/","=","clear"];
 var $stored_variables = [];
 var $stored_operator = [];
